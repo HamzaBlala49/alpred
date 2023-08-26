@@ -1,4 +1,4 @@
-export const bisUrl = "https://almtkqsas.pythonanywhere.com"
+export const bisUrl = "https://1f602650d4.pythonanywhere.com"
 
 
 // https://almtkqsas.pythonanywhere.com
