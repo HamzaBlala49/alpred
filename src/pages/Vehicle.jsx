@@ -10,11 +10,15 @@ import { Link } from 'react-router-dom';
 import { check_permissions } from '../context/permissions';
 
 function Vehicle() {
-    const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
   let [isLoad, setIsLoad] = useState(false);
   let [element,setElement] = useState(null);
   let [searchValue,setSearchValue] = useState("")
-  let [selectValue,setSelectValue] = useState("old");
+  let [typeVehicle,setTypeVehicle] = useState([]);
+  let [typeVehicle_name,setTypeVehicle_name] = useState("");
+
+  let [driver,setDriver] = useState([]);
+  let [driver_name,setDriver_name] = useState("");
 
   const authHeader = useAuthHeader()
   const config = {
@@ -29,8 +33,27 @@ function Vehicle() {
     setIsLoad(true)
     if(isauth()){
       axios.get(`${bisUrl}/vehicle/vehicle/`,config).then(res=>{
-        setData(res.data);
+        setData(res.data.reverse());
         setIsLoad(false)
+
+      }).catch(e=>{
+        console.error(e)
+
+      alert("حث خطأ اثناء جلب البيانات تأكد من اتصالك بالشبكة")
+      })
+
+      axios.get(`${bisUrl}/vehicle/types_vehicle/`,config).then(res=>{
+        setTypeVehicle(res.data.reverse());
+
+      }).catch(e=>{
+        console.error(e)
+
+      alert("حث خطأ اثناء جلب البيانات تأكد من اتصالك بالشبكة")
+      })
+
+
+      axios.get(`${bisUrl}/vehicle/driver/`,config).then(res=>{
+        setDriver(res.data.reverse());
 
       }).catch(e=>{
         console.error(e)
@@ -42,13 +65,7 @@ function Vehicle() {
 
   },[])
   
-  useEffect(()=>{
-    if(selectValue == "new"){
-      setData([...data.reverse()]);
-    }else{
-      setData([...data.reverse()]);
-    }
-  },[selectValue])
+ 
 
   let handelElement = (el)=>{
     setElement(el)
@@ -77,9 +94,6 @@ function Vehicle() {
       setSearchValue(e.target.value);
   }
 
-  let handelChangeSelect = (e)=>{
-    setSelectValue(e.target.value)
-  }
 
   return (
     <div className='p-2'>
@@ -107,15 +121,28 @@ function Vehicle() {
         type="text" 
         className="form-control form-control-sm outline-none"
         style={{fontSize:'14px'}}
-        placeholder='بحث.. '/>
+        placeholder='بحث بأسم أو رقم السيارة'/>
       </div>
 
       <div className='col-12 col-lg-2 col-md-2 col-sm-12'>
-        <select onChange={(e)=> handelChangeSelect(e)} value={selectValue} className="form-select form-select-sm"
+        <select onChange={(e)=> setDriver_name(e.target.value)} value={driver_name} className="form-select form-select-sm"
         style={{fontSize:'14px'}} 
-        id="floatingSelectGrid">
-            <option value="old">قديم</option>
-            <option value="new">جديد</option>
+        >
+            <option value="">كل السائقين</option>
+            {
+              driver.map((el)=><option value={el.name}>{el.name}</option>)
+            }
+        </select>
+      </div>
+
+      <div className='col-12 col-lg-2 col-md-2 col-sm-12'>
+        <select onChange={(e)=> setTypeVehicle_name(e.target.value)} value={typeVehicle_name} className="form-select form-select-sm"
+        style={{fontSize:'14px'}} 
+        >
+            <option value="">كل أنواع السيارات</option>
+            {
+              typeVehicle.map((el)=><option value={el.name}>{el.name}</option>)
+            }
         </select>
       </div>
 
@@ -146,8 +173,8 @@ function Vehicle() {
         <tbody>
           { data.map((el,index)=>{
 
-            return el.name.startsWith(searchValue) ? <tr key={index}>
-            <th scope="row">{selectValue =="old" ? index+1 : data.length - index}</th>
+            return (el.name.startsWith(searchValue) || el.car_number.toString().startsWith(searchValue)) && el.name_driver.startsWith(driver_name) && el.name_types_vehicle.startsWith(typeVehicle_name) ? <tr key={index}>
+            <th scope="row">{data.length - index}</th>
             <td>{el.name}</td>
             <td>{el.color}</td>
             <td>{el.model}</td>

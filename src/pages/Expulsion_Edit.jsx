@@ -76,7 +76,7 @@ useEffect(()=>{
   setCityId(element?.to_city);
   setCustomerId(element?.customer);
   setOfficeId(element?.to_office);
-  setPrecious(element?.precious);
+  setPrecious(element?.precious ? "1" : "0");
   setPrice(element?.price);
   setType_price(element?.type_price);
   setRecipient_phone_2(element?.recipient_phone_2);

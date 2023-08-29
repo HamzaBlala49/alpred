@@ -84,6 +84,8 @@ let handelSubmit = (values,action)=>{
       console.log("in new")
     }
 
+    console.log(config)
+
     axios.put(`${bisUrl}/office/customers/${Id}/`,formData,config).then(()=>{
         action.resetForm();
         setIsSave(false);
@@ -104,6 +106,7 @@ let handelSubmit = (values,action)=>{
 
 
         }else{
+          console.log(e)
 
           alert("حدث خطأ أثناء عملية الأضافة")
         }
@@ -120,7 +123,6 @@ let handelSubmit = (values,action)=>{
   return (
     <div className='p-2 container-fluid'>
 
-    {/* {isSave && <div class="alert alert-success"><b>تم الحفظ بنجاح</b></div>} */}
     <h6 className='text-dark'><FontAwesomeIcon icon={faUsers} /> تعديل عميل </h6>
 
   <Formik 

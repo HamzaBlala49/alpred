@@ -8,6 +8,7 @@ import CustomInput from '../components/CustomInput';
 import { bisUrl } from '../context/biseUrl';
 import { useAuthHeader, useIsAuthenticated } from 'react-auth-kit';
 import axios from 'axios';
+import BtnLoader from '../components/BtnLoader';
 
 function Vehicle_Edit() {
     const navigate = useNavigate();
@@ -24,6 +25,9 @@ function Vehicle_Edit() {
     const [name,setName] = useState("");
     const [color,setColor] = useState("");
     const [car_number,setCar_number] = useState("");
+
+    const [modelVal,setModelVal] = useState(false);
+
 
     const authHeader = useAuthHeader();
     let isauth = useIsAuthenticated();
@@ -81,35 +85,43 @@ function Vehicle_Edit() {
 
   let handelSubmit = (values,action)=>{
     if(isauth()){
-      setIsSave(true)
+      if(model != ""){
+        setIsSave(true)
 
-      axios.put(`${bisUrl}/vehicle/vehicle/${Id}/`,{...values,model,"driver":driversId,"types_vehicle":typeVehicleId},config).then(()=>{
-          setIsSave(false);
-          action.resetForm();
-          navigate('/transportation_home/vehicle')
-    
-      }).catch((e)=>{
-          setIsSave(false);
-          console.log(e)
+        axios.put(`${bisUrl}/vehicle/vehicle/${Id}/`,{...values,model,"driver":driversId,"types_vehicle":typeVehicleId},config).then(()=>{
+            setIsSave(false);
+            setModelVal(false);
+            action.resetForm();
+            navigate('/transportation_home/vehicle')
+      
+        }).catch((e)=>{
+            setIsSave(false);
+            setModelVal(false);
 
-          if(e.response.status == 400){
-            let messes = '';
-            for (const i in e.response.data) {
-              let listError = e.response.data[i];
-              listError.forEach(el => {
-                messes +=` تحذير : ${el} \n` 
-              })
-              
+  
+            if(e.response.status == 400){
+              let messes = '';
+              for (const i in e.response.data) {
+                let listError = e.response.data[i];
+                listError.forEach(el => {
+                  messes +=` تحذير : ${el} \n` 
+                })
+                
+              }
+              alert(messes)
+  
+  
+            }else{
+  
+              alert("حدث خطأ أثناء عملية الأضافة")
             }
-            alert(messes)
+  
+        })
 
-
-          }else{
-
-            alert("حدث خطأ أثناء عملية الأضافة")
-          }
-
-      })
+      }else{
+        setModelVal(true)
+  
+      }
     }
     
   
@@ -118,7 +130,6 @@ function Vehicle_Edit() {
   return (
     <div className='p-2 container-fluid'>
 
-    {/* {phoneVal && <div class="alert alert-danger"><b> رقم الهاتف المدحل غير صالح</b></div>} */}
 
     <h6 className='text-dark'><FontAwesomeIcon icon={faCar} /> تعديل مركبة </h6>
 
@@ -158,6 +169,8 @@ function Vehicle_Edit() {
         <div className="mb-3">
             <label className="form-label fs-6"> الموديل:</label>
             <input type="date" value={model} onChange={(e)=>setModel(e.target.value)} style={{fontSize:'14px',width:'300px'}} className="form-control mt-s form-control-sm outline-none" />
+            { modelVal && <p className='text-danger' style={{fontSize:"14px"}}>هذا الحقل مطلوب</p>}
+
         </div>
 
         <div className="mb-3">
@@ -187,8 +200,12 @@ function Vehicle_Edit() {
 
           <Link role='button' to={"/transportation_home/vehicle"} className="btn  ms-2 btn-sm">رجوع</Link>
           |
-          <button type="submit" disabled={isSave} className="btn btn-dark btn-sm me-2">حفظ</button>
-        </Form>
+          <button type="submit" disabled={isSave} className="btn btn-dark btn-sm me-2">
+              {
+                isSave ? <BtnLoader/> : "حفظ"
+              } 
+          </button>        
+          </Form>
       )}
     </Formik>
   
