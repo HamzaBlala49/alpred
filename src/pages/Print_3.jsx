@@ -237,9 +237,9 @@ function Print_3() {
                                         <th scope="col">الرقم</th>
                                         <th scope="col">رقم الطرد</th>
                                         <th scope="col">المرسل</th>
-                                        <th scope="col">رقم المرسل</th>
+                                        {/* <th scope="col">رقم المرسل</th> */}
                                         <th scope="col">المستلم</th>
-                                        <th scope="col">رقم المستلم</th>
+                                        {/* <th scope="col">رقم المستلم</th> */}
                                         {
                                             reportState &&<>
                                                 <th scope="col">السعر</th>
@@ -259,9 +259,9 @@ function Print_3() {
                                         <th scope="row">{index+1}</th>
                                         <td>{el.expulsion}</td>
                                         <td>{el.name_customer}</td>
-                                        <td>{el.name_customer_phone_1}</td>
+                                        {/* <td>{el.name_customer_phone_1}</td> */}
                                         <td>{el.name_recipient_name}</td>
-                                        <td>{el.name_recipient_phone_1}</td>
+                                        {/* <td>{el.name_recipient_phone_1}</td> */}
                                         {
                                             reportState && <>
                                                 <td>{el.name_price}</td>

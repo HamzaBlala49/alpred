@@ -469,6 +469,7 @@ function Records() {
               <th scope="col">الرقم</th>
               <th scope="col">رقم الطرد</th>
               <th scope="col">حالة الطرد</th>
+              <th scope="col">أسم المستلم</th>
               <th scope="col">المخزن</th>
               <th scope="col">الرحلة</th>
               <th scope="col">وجهة الطرد</th>
@@ -490,6 +491,7 @@ function Records() {
             <th scope="row">{data.length - index}</th>
             <td>{el.expulsion}</td>
             <td>{el.name_expulsion_status}</td>
+            <td>{el.name_recipient_name}</td>
             <td>{el.name_store || "لايوجد"}</td>
             <td>{el.trip || "لايوجد"}</td>
             <td>{el.name_city || "لايوجد"}</td>
