@@ -35,6 +35,7 @@ function Finance() {
     if(isauth()){
       axios.get(`${bisUrl}/office/finamcefunds/`,config).then(res=>{
         setData(res.data);
+        console.log(res.data);
         setIsLoad(false)
 
       }).catch(e=>{
@@ -151,7 +152,7 @@ function Finance() {
         <tbody>
           { data.map((el,index)=>{
 
-            return el.name_office.startsWith(searchValue) ? <tr key={index}>
+            return el.name_office?.startsWith(searchValue) ? <tr key={index}>
             <th scope="row">{selectValue =="old" ? index+1 : data.length - index}</th>
             <td>{el.expulsion || <span className='text-warning'>لايوجد</span>}</td>
             <td>{el.name_office}</td>
