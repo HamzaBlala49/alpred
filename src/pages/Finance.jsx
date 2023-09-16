@@ -114,7 +114,16 @@ function Finance() {
     setIsLoad(true)
     if(isauth()){
       axios.get(`${bisUrl}/office/finamcefunds/`,config).then(res=>{
-        setData(res.data.reverse());
+        let _data = res.data.reverse();
+        _data.forEach(el=>{
+          if(el.expulsion === null){
+            el.expulsion = "لايوجد";
+            
+          }
+
+        });
+        
+        setData(_data);
         setIsLoad(false)
 
       }).catch(e=>{
@@ -145,7 +154,16 @@ function Finance() {
     if(isauth){
       setIsLoad(true)
       axios.get(`${bisUrl}/office/finamcefunds/?office=${officeId}&type_currency=${type_currency}&type_account=${type_account}&start_date=${start_date}&end_date=${end_date}`,config).then((res)=>{
-        setData(res.data.reverse());
+        let _data = res.data.reverse();
+        _data.forEach(el=>{
+          if(el.expulsion === null){
+            el.expulsion = "لايوجد";
+            
+          }
+
+        });
+        
+        setData(_data);
         setTotal(res.data[0].total_price)
         setIsLoad(false)
 
