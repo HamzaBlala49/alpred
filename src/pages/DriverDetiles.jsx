@@ -58,6 +58,9 @@ function DriverDetiles() {
                    <p><b> رقم الهوية: </b>{element?.ind}</p>
                    <p><b>  نوع الهوية: </b>{element?.name_Status_Ind}</p>
                    <p><b> تاريخ الميلاد : </b>{element?.b_day}</p>
+                   <p><b> رقم الهاتف 1 : </b>{element?.phone_1}</p>
+                   <p><b> رقم الهاتف 2 : </b>{element?.phone_2}</p>
+                   <p><b> الحالة: </b>{element?.status_available == 2 ? "متوفر" : "غير متوفر"}</p>
                </div>
                <div className='col-12'>
                     <p><b>البطاقة الشخصية:</b></p>
