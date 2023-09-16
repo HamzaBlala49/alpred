@@ -44,6 +44,7 @@ function Finance() {
     if(isauth()){
       axios.get(`${bisUrl}/office/finamcefunds/`,config).then(res=>{
         setData(res.data.reverse());
+        console.log(res.data)
         setIsLoad(false)
 
       }).catch(e=>{
@@ -247,9 +248,11 @@ function Finance() {
       }
 
       {
-          type_account !="" || type_currency  != ""  && total !=null?  <>
-          <div className='col-12 col-lg-5 col-md-5 col-sm-12'>
-            <p style={{fontSize:"14px"}}>المجموع الكلي :<b>{total || "لا يوجد"}</b></p>
+          type_account !="" || type_currency  != ""  && total !=null ?  <>
+          <div className='col-12 col-lg-8 col-md-5 col-sm-12'>
+            <span style={{fontSize:"14px"}}>المجموع الكلي :<b>{total || "لا يوجد"}</b></span>
+            <span className='mx-3' style={{fontSize:"14px"}}>نوع العملة:<b>{data[1]?.name_type_currency || "لا يوجد"}</b></span>
+            <span style={{fontSize:"14px"}}>نوع الحساب:<b>{data[1]?.name_type_account || "لا يوجد"}</b></span>
           </div>
           </>
           :
@@ -281,7 +284,7 @@ function Finance() {
         <tbody>
           { data.map((el,index)=>{
 
-            return el.expulsion?.toString().startsWith(searchValue) ? <tr key={index}>
+            return el.name_office?.startsWith(searchValue) ? <tr key={index}>
             <th scope="row">{data.length - index}</th>
             <td>{el.expulsion || <span className='text-warning'>لايوجد</span>}</td>
             <td>{el.name_office}</td>
