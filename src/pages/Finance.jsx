@@ -43,8 +43,17 @@ function Finance() {
     setIsLoad(true)
     if(isauth()){
       axios.get(`${bisUrl}/office/finamcefunds/`,config).then(res=>{
-        setData(res.data.reverse());
-        console.log(res.data)
+        let _data = res.data.reverse();
+        _data.forEach(el=>{
+          if(el.expulsion === null){
+            el.expulsion = "لايوجد";
+            
+          }
+
+        });
+        
+        setData(_data);
+
         setIsLoad(false)
 
       }).catch(e=>{
@@ -118,17 +127,17 @@ function Finance() {
 
   let handelChangeType_currency=(e)=>{
     setType_currency(e.target.value);
-    if(type_currency == ""){
-      setTotal(null)
-    }
+    // if(type_currency == ""){
+    //   setTotal(null)
+    // }
 
   }
 
   let handelChangeType_account=(e)=>{
     setType_account(e.target.value);
-    if(type_account == ""){
-      setTotal(null)
-    }
+    // if(type_account == ""){
+    //   setTotal(null)
+    // }
 
   }
 
@@ -171,7 +180,7 @@ function Finance() {
         type="text" 
         className="form-control  form-control-sm outline-none"
         style={{fontSize:'14px'}}
-        placeholder='بحث.. '/>
+        placeholder='بحث برقم الطرد '/>
       </div>
 
       <div className='col-12 col-lg-2 col-md-2 col-sm-12'>
@@ -248,7 +257,7 @@ function Finance() {
       }
 
       {
-          type_account !="" || type_currency  != ""  && total !=null ?  <>
+          type_account !="" && type_currency  != ""  && total !=null ?  <>
           <div className='col-12 col-lg-8 col-md-5 col-sm-12'>
             <span style={{fontSize:"14px"}}>المجموع الكلي :<b>{total || "لا يوجد"}</b></span>
             <span className='mx-3' style={{fontSize:"14px"}}>نوع العملة:<b>{data[1]?.name_type_currency || "لا يوجد"}</b></span>
@@ -284,9 +293,9 @@ function Finance() {
         <tbody>
           { data.map((el,index)=>{
 
-            return el.name_office?.startsWith(searchValue) ? <tr key={index}>
+            return el.expulsion?.toString().startsWith(searchValue) ? <tr key={index}>
             <th scope="row">{data.length - index}</th>
-            <td>{el.expulsion || <span className='text-warning'>لايوجد</span>}</td>
+            <td>{el.expulsion ==="لايوجد" ? <span className='text-warning' >لايوجد</span> : el.expulsion}</td>
             <td>{el.name_office}</td>
             <td>{el.name_type_account}</td>
             <td>{el.price}</td>
