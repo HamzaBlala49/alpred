@@ -13,8 +13,12 @@ function Trip() {
   const [data, setData] = useState([]);
   let [isLoad, setIsLoad] = useState(false);
   let [element,setElement] = useState(null);
-  let [searchValue,setSearchValue] = useState("")
-  let [selectValue,setSelectValue] = useState("old");
+  let [searchValue,setSearchValue] = useState("");
+  let [drivers,setDrivers] = useState([]);
+  let [driver_name,setDriver_name] = useState("");
+
+  let [offices,setOffices]=useState([]);
+  let [office_name,setOffice_name]=useState("");
 
   const authHeader = useAuthHeader()
   const config = {
@@ -28,6 +32,24 @@ function Trip() {
       axios.get(`${bisUrl}/office/trips/`,config).then(res=>{
         setData(res.data.reverse());
         setIsLoad(false)
+
+      }).catch(e=>{
+        console.error(e)
+
+      alert("حث خطأ اثناء جلب البيانات تأكد من اتصالك بالشبكة")
+      })
+
+      axios.get(`${bisUrl}/office/office/`,config).then(res=>{
+        setOffices(res.data.reverse())
+
+      }).catch(e=>{
+        console.error(e)
+
+      alert("حث خطأ اثناء جلب البيانات تأكد من اتصالك بالشبكة")
+      })
+
+      axios.get(`${bisUrl}/vehicle/driver/`,config).then(res=>{
+        setDrivers(res.data.reverse());
 
       }).catch(e=>{
         console.error(e)
@@ -101,17 +123,33 @@ function Trip() {
         type="text" 
         className="form-control  form-control-sm outline-none"
         style={{fontSize:'14px'}}
-        placeholder='بحث.. '/>
+        placeholder='بحث بأسم الرحلة'/>
+      </div>
+
+
+      
+      <div className='col-12 col-lg-2 col-md-2 col-sm-12'>
+        <select onChange={(e)=> setOffice_name(e.target.value)} value={office_name} className="form-select form-select-sm"
+        style={{fontSize:'14px'}} 
+        id="floatingSelectGrid">
+            <option value="">كل الى مكتب</option>
+            {
+              offices.map((el)=><option value={el.name}>{el.name}</option>)
+            }
+        </select>
       </div>
 
       <div className='col-12 col-lg-2 col-md-2 col-sm-12'>
-        <select onChange={(e)=> handelChangeSelect(e)} value={selectValue} className="form-select form-select-sm"
+        <select onChange={(e)=> setDriver_name(e.target.value)} value={driver_name} className="form-select form-select-sm"
         style={{fontSize:'14px'}} 
         id="floatingSelectGrid">
-            <option value="old">قديم</option>
-            <option value="new">جديد</option>
+            <option value="">كل السائقين</option>
+            {
+              drivers.map((el)=><option value={el.name}>{el.name}</option>)
+            }
         </select>
       </div>
+
 
 
 
@@ -142,7 +180,7 @@ function Trip() {
         <tbody>
           { data.map((el,index)=>{
 
-            return el.name.startsWith(searchValue) ? <tr key={index}>
+            return el.name.startsWith(searchValue) && el.name_to_office.startsWith(office_name) && el.name_drive.startsWith(driver_name) ? <tr key={index}>
             <th scope="row">{data.length - index}</th>
             <td>{el.name}</td>
             <td>{el.name_drive}</td>
