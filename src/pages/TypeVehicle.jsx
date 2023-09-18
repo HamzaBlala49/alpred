@@ -14,7 +14,6 @@ function TypeVehicle() {
   let [isLoad, setIsLoad] = useState(false);
   let [element,setElement] = useState(null);
   let [searchValue,setSearchValue] = useState("")
-  let [selectValue,setSelectValue] = useState("old");
 
   const authHeader = useAuthHeader()
   const config = {
@@ -29,7 +28,7 @@ function TypeVehicle() {
     setIsLoad(true)
     if(isauth()){
       axios.get(`${bisUrl}/vehicle/types_vehicle/`,config).then(res=>{
-        setData(res.data);
+        setData(res.data.reverse());
         setIsLoad(false)
 
       }).catch(e=>{
@@ -42,13 +41,7 @@ function TypeVehicle() {
 
   },[])
   
-  useEffect(()=>{
-    if(selectValue == "new"){
-      setData([...data.reverse()]);
-    }else{
-      setData([...data.reverse()]);
-    }
-  },[selectValue])
+
 
   let handelElement = (el)=>{
     setElement(el)
@@ -111,16 +104,6 @@ function TypeVehicle() {
         placeholder='بحث.. '/>
       </div>
 
-      <div className='col-12 col-lg-2 col-md-2 col-sm-12'>
-        <select onChange={(e)=> handelChangeSelect(e)} value={selectValue} className="form-select form-select-sm"
-        style={{fontSize:'14px'}} 
-        id="floatingSelectGrid">
-            <option value="old">قديم</option>
-            <option value="new">جديد</option>
-        </select>
-      </div>
-
-
       
 
       
@@ -149,7 +132,7 @@ function TypeVehicle() {
           { data.map((el,index)=>{
 
             return el.name.startsWith(searchValue) ? <tr key={index}>
-            <th scope="row">{selectValue =="old" ? index+1 : data.length - index}</th>
+            <th scope="row">{data.length - index}</th>
             <td>{el.name}</td>
             <td>{el.create_at.slice(0,10)}</td>
 

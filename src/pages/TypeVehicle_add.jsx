@@ -8,6 +8,7 @@ import CustomInput from '../components/CustomInput';
 import { bisUrl } from '../context/biseUrl';
 import { useAuthHeader, useIsAuthenticated } from 'react-auth-kit';
 import axios from 'axios';
+import BtnLoader from '../components/BtnLoader';
 
 function TypeVehicle_add() {
     const navigate = useNavigate();
@@ -32,7 +33,7 @@ function TypeVehicle_add() {
       }).catch((e)=>{
           setIsSave(false);
           console.log(e)
-
+          
           if(e.response.status == 400){
             let messes = '';
             for (const i in e.response.data) {
@@ -43,7 +44,6 @@ function TypeVehicle_add() {
               
             }
             alert(messes)
-
 
           }else{
 
@@ -83,7 +83,11 @@ function TypeVehicle_add() {
 
           <Link role='button' to={"/transportation_home/typeVehicle"} className="btn  ms-2 btn-sm">رجوع</Link>
           |
-          <button type="submit" disabled={isSave} className="btn btn-dark btn-sm me-2">حفظ</button>
+          <button type="submit" disabled={isSave} className="btn btn-dark btn-sm me-2">
+              {
+                isSave ? <BtnLoader/> : "حفظ"
+              } 
+          </button>          
         </Form>
       )}
     </Formik>

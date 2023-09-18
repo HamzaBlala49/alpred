@@ -76,6 +76,14 @@ const loginSchema = yup.object().shape({
     password:yup.string().required("كلمة المرور مطلوبة"),
 })
 
+const passwordRegex =/^(?=.*[a-zA-Z])(?=.*\d).{8,}$/;
+
+const changePasswordSchema = yup.object().shape({
+    // old_password:yup.string().required("الحقل مطلوب"),
+    new_password1:yup.string().min(8,"كلمة السر قصيره").matches(passwordRegex," لا يمكن أن تكون كلمة المرور الخاصة بك رقمية بالكامل أو نصية").required("الحقل مطلوب"),
+    new_password2: yup.string().oneOf([yup.ref('new_password1',"")],"يجب أن تتطابق مع كلمة السر الجديدة").required("الحقل مطلوب")
+})
+
 
 
 export {
@@ -90,5 +98,6 @@ export {
     driverSchema,
     vehicleSchema,
     provinecSchema,
-    directorateSchema
+    directorateSchema,
+    changePasswordSchema
 }
