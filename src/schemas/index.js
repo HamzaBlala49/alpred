@@ -30,6 +30,7 @@ const customerSchema = yup.object().shape({
 
 
 const expulsionSchema = yup.object().shape({
+    content_ponts:yup.string().min(3,"يجب أن يكون الأدخال أكثر من 3 حروف").required("هذا الحقل مطلوب"),
     content:yup.string().min(3,"يجب أن يكون الأدخال أكثر من 3 حروف").required("هذا الحقل مطلوب"),
     recipient_phone_1:yup.string().matches(/^[0-9]+$/,"يجب أن يكون رقماً").test("len" ," يجب أن يكون 9 ارقام أو 8 ارقام اذا كان رقم هاتف ادخل مفتاح المحافظة ", val => val.toString().length === 9 || val.toString().length === 8  ).required("هذا الحقل مطلوب"),
     recipient_phone_2:yup.string().matches(/^[0-9]+$/,"يجب أن يكون رقماً").test("len" ," يجب أن يكون 9 ارقام أو 8 ارقام اذا كان رقم هاتف ادخل مفتاح المحافظة ", val => val.toString().length === 9 || val.toString().length === 8  ).required("هذا الحقل مطلوب"),

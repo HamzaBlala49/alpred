@@ -172,14 +172,18 @@ let handelSubmit = (values,action)=>{
             <option value="9">عمولة تأمين</option>
             <option value="10">نسبة سائق</option>
             <option value="11">إيحازات</option>
-            <option value="12">كهرباء ماء تلفونات نت مشتقات نفظية</option>
+            <option value="12">كهرباء</option>
             <option value="13">سلفة</option>
             <option value="14">خصميات جزاء</option>
-            <option value="15">قمية شراء عملة</option>
+            <option value="15">قيمة شراء عملة</option>
             <option value="16">أجرة تحويل</option>
-            <option value="17">قمية جمارك بضاعة</option>
+            <option value="17">قيمة جمارك بضاعة</option>
             <option value="18">اجراة حمالة</option>
             <option value="19">إيداع مصرفي</option>
+            <option value="20">ماء</option>
+            <option value="21">تليفونات</option>
+            <option value="22">إنترنت</option>
+            <option value="23">مشتقات نفظية</option>
           </CustomSelect>
 
 

@@ -32,6 +32,7 @@ function Expulsion_Edit() {
   const [recipient_phone_1,setRecipient_phone_1] = useState("");
   const [recipient_name,setRecipient_name] = useState("");
   const [recipient_phone_2,setRecipient_phone_2] = useState("");
+  const [content_ponts,setContent_ponts] = useState("");
   const authHeader = useAuthHeader()
   let isauth = useIsAuthenticated()
   const config = {
@@ -73,6 +74,7 @@ function Expulsion_Edit() {
 },[]);
 
 useEffect(()=>{
+
   setCityId(element?.to_city);
   setCustomerId(element?.customer);
   setOfficeId(element?.to_office);
@@ -84,15 +86,16 @@ useEffect(()=>{
   setRecipient_name(element?.recipient_name);
   setType_currency(element?.type_currency);
   setContent(element?.content);
+  setContent_ponts(element?.content_ponts)
 },[element]);
 
 let handelSubmit = (values,action)=>{
   console.log("dsds")
   if(isauth()){
     setIsSave(true);
-    let {content,price,recipient_phone_1,recipient_phone_2,recipient_name} = values;
+    let {content_ponts,content,price,recipient_phone_1,recipient_phone_2,recipient_name} = values;
 
-    axios.put(`${bisUrl}/office/expulsions/${Id}/`,{content,price:+price,recipient_phone_1:recipient_phone_1,recipient_phone_2:recipient_phone_2,recipient_name,type_price,type_currency,precious,customer:customerId,to_office:officeId,to_city:cityId},config).then(()=>{
+    axios.put(`${bisUrl}/office/expulsions/${Id}/`,{content_ponts,content,price:+price,recipient_phone_1:recipient_phone_1,recipient_phone_2:recipient_phone_2,recipient_name,type_price,type_currency,precious,customer:customerId,to_office:officeId,to_city:cityId},config).then(()=>{
       action.resetForm();
       setIsSave(false);
       // navigate("/customer")
@@ -133,6 +136,7 @@ let handelSubmit = (values,action)=>{
     <h6 className='text-dark'><FontAwesomeIcon icon={faBox} /> تعديل طرد </h6>
   <Formik 
       initialValues={{
+        content_ponts:content_ponts || "",
         content:content || "",
         recipient_phone_1: recipient_phone_1 || "",
         recipient_phone_2: recipient_phone_2 || "",
@@ -159,6 +163,13 @@ let handelSubmit = (values,action)=>{
               <CustomTextarea
                 label={" المحتوى:"}
                 name="content"
+              />
+            </div>
+
+            <div className='col-12 col-lg-6 col-md-6 col-sm-12'>
+              <CustomTextarea
+                label={"المحتوى للنقاط:"}
+                name="content_ponts"
               />
             </div>
 

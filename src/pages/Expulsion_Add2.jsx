@@ -68,9 +68,9 @@ function Expulsion_Add2() {
   let handelSubmit = (values,action)=>{
     if(isauth()){
       setIsSave(true);
-      let {content,price,recipient_phone_1,recipient_phone_2,recipient_name} = values;
+      let {content_ponts,content,price,recipient_phone_1,recipient_phone_2,recipient_name} = values;
   
-      axios.post(`${bisUrl}/office/expulsions/`,{content,price:+price,recipient_phone_1:recipient_phone_1,recipient_phone_2:recipient_phone_2,recipient_name,type_price,type_currency,precious,customer:customerId,to_office:officeId,to_city:cityId},config).then(()=>{
+      axios.post(`${bisUrl}/office/expulsions/`,{content_ponts,content,price:+price,recipient_phone_1:recipient_phone_1,recipient_phone_2:recipient_phone_2,recipient_name,type_price,type_currency,precious,customer:customerId,to_office:officeId,to_city:cityId},config).then(()=>{
           action.resetForm();
           setIsSave(false);
           navigate("/customer")
@@ -107,6 +107,7 @@ function Expulsion_Add2() {
   <Formik 
       initialValues={{
         content:"",
+        content_ponts:"",
         recipient_phone_1:"",
         recipient_name:"",
         recipient_phone_2:"",
@@ -131,6 +132,13 @@ function Expulsion_Add2() {
               <CustomTextarea
                 label={" المحتوى:"}
                 name="content"
+              />
+            </div>
+
+            <div className='col-12 col-lg-6 col-md-6 col-sm-12'>
+              <CustomTextarea
+                label={"المحتوى للنقاط:"}
+                name="content_ponts"
               />
             </div>
 

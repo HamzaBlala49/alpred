@@ -18,7 +18,7 @@ function Print_3() {
     const componentRef = useRef();
     let [transformationList,setTransformationList] = useState([]);
     let [isTransformation,setIsTransformation] = useState(false)
-    let [reportState,setReportState] = useState(true);
+    let [reportState,setReportState] = useState(1);
     let [isPrint,setIsPrint] = useState(false);
     let [isCheckAll, setIsCheckAll] = useState(false);
     let [isSend, setIsSend] = useState(false);
@@ -35,7 +35,8 @@ function Print_3() {
     useEffect(() => {
         if(isauth()){
             axios.get(`${bisUrl}/office/trips/records?trip=${Id}`,config).then((res)=>{
-
+                // console.log(res.data)
+                // console.log(res)
                 setBeforeData(res.data)
               }).catch((e)=>{
                 console.log(e)
@@ -77,7 +78,7 @@ function Print_3() {
           }`,
           onAfterPrint: ()=> {
             setIsPrint(false);
-            setReportState(true)
+            setReportState(1)
         }
     })
 
@@ -90,7 +91,17 @@ function Print_3() {
 
     } 
     let handelReportBtn2 = ()=>{
-        setReportState(false);
+        setReportState(2);
+        setIsPrint(true);
+
+        setTimeout(() => {
+            handlePrint() 
+        }, 10);
+
+    } 
+
+    let handelReportBtn3 = ()=>{
+        setReportState(3);
         setIsPrint(true);
 
         setTimeout(() => {
@@ -186,7 +197,7 @@ function Print_3() {
                             type='button'
                             style={{fontSize:'14px'}}
                             onClick={()=> handelReportBtn()}
-                            > طباعة السند <FontAwesomeIcon icon={faPrint} /> </button>
+                            > طباعة للمكتب <FontAwesomeIcon icon={faPrint} /> </button>
                         </div>
 
                         <div className="col-5">
@@ -195,6 +206,15 @@ function Print_3() {
                             style={{fontSize:'14px'}}
                             onClick={()=> handelReportBtn2()}
                             > طباعة للنقاط  <FontAwesomeIcon icon={faPrint} /> </button>
+                        </div>
+
+                        
+                        <div className="col-5">
+                            <button className='btn btn-sm my-3 w-100 btn-warning' 
+                            type='button'
+                            style={{fontSize:'14px'}}
+                            onClick={()=> handelReportBtn3()}
+                            > طباعة للسائق  <FontAwesomeIcon icon={faPrint} /> </button>
                         </div>
 
                     </div>
@@ -237,11 +257,11 @@ function Print_3() {
                                         <th scope="col">الرقم</th>
                                         <th scope="col">رقم الطرد</th>
                                         <th scope="col">المرسل</th>
-                                        {/* <th scope="col">رقم المرسل</th> */}
+                                        { reportState == 1 && <><th scope="col">رقم المرسل</th></>}
                                         <th scope="col">المستلم</th>
-                                        {/* <th scope="col">رقم المستلم</th> */}
+                                        { reportState == 1 && <><th scope="col">رقم المستلم</th></>}
                                         {
-                                            reportState &&<>
+                                            reportState == 1 && <>
                                                 <th scope="col">السعر</th>
                                                 <th scope="col">نوع العملة</th>
                                                 <th scope="col">نوع الدفع</th>
@@ -259,17 +279,30 @@ function Print_3() {
                                         <th scope="row">{index+1}</th>
                                         <td>{el.expulsion}</td>
                                         <td>{el.name_customer}</td>
-                                        {/* <td>{el.name_customer_phone_1}</td> */}
-                                        <td>{el.name_recipient_name}</td>
-                                        {/* <td>{el.name_recipient_phone_1}</td> */}
                                         {
-                                            reportState && <>
+                                            reportState == 1 && <>
+                                            <td>{el.name_customer_phone_1}</td>
+                                            </>
+                                        }
+                                        <td>{el.name_recipient_name}</td>
+                                        {
+                                            reportState == 1 && <>
+                                            <td>{el.name_recipient_phone_1}</td>
+                                            
+                                            </>
+                                        }
+                                        {
+                                            reportState == 1 && <>
                                                 <td>{el.name_price}</td>
                                                 <td>{el.name_type_currency}</td>
                                                 <td>{el.name_type_price}</td>
                                             </>
                                         }
-                                        <td>{el.name_content}</td>
+
+                                        {
+                                            reportState == 2 ? <td>{el.name_content_ponts}</td>: <td>{el.name_content}</td>
+
+                                        }
                                     </tr>
                                 
 

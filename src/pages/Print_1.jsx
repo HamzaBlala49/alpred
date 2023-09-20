@@ -105,6 +105,7 @@ function Print_1() {
         </div>
         <div className='col-4' style={{border:"solid 1px black",borderRadius:"10px"}}>
             <div  className='p-2'>
+            <p className='' style={{fontSize:"14px"}}><b>المستخدم: </b>{element.name_user}</p>
             <p className='' style={{fontSize:"14px"}}><b>رقم السند :</b>{element.id}</p>
             <p className='' style={{fontSize:"14px"}}><b>التاربخ:</b> {`${ date.getDate() }/${date.getMonth() + 1}/${date.getFullYear()}`}  </p>
             <p className='' style={{fontSize:"14px"}}><b>أجرة النقل:</b> {element.price}  </p>
@@ -166,6 +167,7 @@ function Print_1() {
         </div>
         <div className='col-4' style={{border:"solid 1px black",borderRadius:"10px"}}>
             <div  className='p-2'>
+            <p className='' style={{fontSize:"14px"}}><b>المستخدم: </b>{element.name_user}</p>
             <p className='' style={{fontSize:"14px"}}><b>رقم السند :</b>{element.id}</p>
             <p className='' style={{fontSize:"14px"}}><b>التاربخ:</b> {`${ date.getDate() }/${date.getMonth() + 1}/${date.getFullYear()}`}  </p>
             <p className='' style={{fontSize:"14px"}}><b>نوع العملة :</b>{element.name_type_currency}</p>

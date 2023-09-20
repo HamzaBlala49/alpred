@@ -205,7 +205,7 @@ let handelDelete = (el)=>{
                         <th scope="col">نوع العملة</th>
                         <th scope="col">أهمية الطرد</th>
                         <th scope="col">تاربخ الأنشاء</th>
-                        <th scope="col" className='text-primary'>المحتوى</th>
+                        <th scope="col" className='text-primary'>المحتوىات</th>
                         {/* <th scope="col" className='text-warning'>السجلات</th> */}
                         <th scope="col" className='text-warning'>طباعة</th>
                         <th scope="col" className='text-success'>تعديل</th>
@@ -229,7 +229,7 @@ let handelDelete = (el)=>{
                     <td>{el.name_type_currency}</td>
                     <td>{el.precious ? "ثمين" : "غير ثمين"}</td>
                     <td>{el.create_at.slice(0,10)}</td>
-                    <td> <a role='button'  data-bs-toggle="modal" onClick={()=> handelNote(el.content)} data-bs-target={"#Modal"}><FontAwesomeIcon className='text-primary' icon={faInfoCircle}/></a></td>
+                    <td> <a role='button'  data-bs-toggle="modal" onClick={()=> handelNote(`المحتوئ:${el.content} ----- محتوى للنقطة: ${el.content_ponts}`)} data-bs-target={"#Modal"}><FontAwesomeIcon className='text-primary' icon={faInfoCircle}/></a></td>
                     {/* <td> <Link  to={`recordDetiles/${el.id}`} role='button'><FontAwesomeIcon className='text-warning' icon={faClipboard} /></Link></td> */}
                     <td><Link to={`/print_1/${el.id}`} role='button'> <FontAwesomeIcon className='text-warning' icon={faPrint} /></Link></td>
                     
