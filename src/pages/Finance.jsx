@@ -230,6 +230,7 @@ function Finance() {
         <select onChange={(e)=> handelChangeType_account(e)} value={type_account} className="form-select form-select-sm"
         style={{fontSize:'14px'}} 
         id="floatingSelectGrid">
+            <option value="">كل أنواع  الحسابات</option>
             <option value="1">إراد</option>
             <option value="2">مصروفات</option>
             <option value="3">مشتريات</option>
