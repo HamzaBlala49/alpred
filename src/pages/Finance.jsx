@@ -231,7 +231,7 @@ function Finance() {
         style={{fontSize:'14px'}} 
         id="floatingSelectGrid">
             <option value="">كل أنواع  الحسابات</option>
-            <option value="1">إراد</option>
+            <option value="1">ايراد</option>
             <option value="2">مصروفات</option>
             <option value="3">مشتريات</option>
             <option value="4">مبيعات</option>
@@ -241,7 +241,7 @@ function Finance() {
             <option value="8">نسبة وكيل</option>
             <option value="9">عمولة تأمين</option>
             <option value="10">نسبة سائق</option>
-            <option value="11">إيحازات</option>
+            <option value="11">إيجارات</option>
             <option value="12">كهرباء</option>
             <option value="13">سلفة</option>
             <option value="14">خصميات جزاء</option>
@@ -254,6 +254,11 @@ function Finance() {
             <option value="21">تليفونات</option>
             <option value="22">إنترنت</option>
             <option value="23">مشتقات نفظية</option>
+            <option value="24">مديونية له</option>
+            <option value="25">صرفه</option>
+            <option value="26">نثريات</option>
+            <option value="27">قرطاسية</option>
+            <option value="28">تغذية</option>
             
         </select>
       </div>
