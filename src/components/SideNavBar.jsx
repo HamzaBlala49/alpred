@@ -25,7 +25,7 @@ function SideNavBar() {
           <NavLink to={'/office_home'}><FontAwesomeIcon icon={faBuilding} /> إدارة المكاتب</NavLink>
         </li>
         <li>
-          <NavLink to={"/transportation_home"}><FontAwesomeIcon icon={faUsers} /> إدارة النقل</NavLink>
+          <NavLink to={"/transportation_home"}><FontAwesomeIcon icon={faBus} /> إدارة النقل</NavLink>
         </li>
         <li>
           <NavLink to={"/location_home"} ><FontAwesomeIcon icon={faBox} /> إدارة الأماكن</NavLink>

@@ -72,6 +72,8 @@ import Directorate_Edit from '../pages/Directorate_Edit';
 import City from '../pages/City';
 import City_Add from '../pages/City _Add';
 import City_Edit from '../pages/City_Edit';
+import Change_Password from '../pages/Change_Password';
+import Users_home from '../pages/Users_home';
 
 
 function AllContent() {
@@ -83,11 +85,13 @@ function AllContent() {
 
                 { isAuth() && 
                 <div className='col-lg-2 col-md-2 d-sm-none d-none d-sm-none d-md-block  d-lg-block'>
-                <SideNavBar/>  
+                    <SideNavBar/>  
                 </div>
                 }
                 <div className={ isAuth() ?'col-10 col-12 col-lg-10 col-md-10 col-sm-12':""}>
-                { isAuth() && <NavBar/>}  
+                { 
+                    isAuth() && <NavBar/>
+                }  
                 <div className={ isAuth() ? 'bg-white m-3 p-3': 'bg-white'}>
                 <Routes>
                     <Route path='/'  element={
@@ -379,10 +383,13 @@ function AllContent() {
                         </RequireAuth>
                     }/>
 
+                    {/* users */}
+                    <Route path='/users_home' element={
+                        <RequireAuth loginPath='/logIn'>
+                            <Users_home/>
+                        </RequireAuth>
+                    } />
 
-
-
-                    
 
 
 
@@ -391,6 +398,14 @@ function AllContent() {
 
                     {/* LogIn */}
                     <Route path='/logIn'  element={<LogIn/>}/>
+
+                    {/* change password */}
+                    <Route path='/change_password' element={
+                        <RequireAuth loginPath='/logIn'>
+                            <Change_Password/>
+                        </RequireAuth>
+                    } />
+
 
                     {/* 404 page */}
                     <Route path='/*' element={

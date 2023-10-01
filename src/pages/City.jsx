@@ -154,7 +154,7 @@ function City() {
         <tbody>
           { data.map((el,index)=>{
 
-            return el.name.startsWith(searchValue) ? <tr key={index}>
+            return el.name.startsWith(searchValue)  && el.name_directorate.startsWith(directorate_name)? <tr key={index}>
             <th scope="row">{data.length - index}</th>
             <td>{el.name}</td>
             <td>{el.name_directorate}</td>

@@ -147,7 +147,7 @@ function Directorate() {
         <tbody>
           { data.map((el,index)=>{
 
-            return el.name.startsWith(searchValue) ? <tr key={index}>
+            return el.name.startsWith(searchValue) && el.name_provinec.startsWith(provinec_name) ? <tr key={index}>
             <th scope="row">{data.length - index}</th>
             <td>{el.name}</td>
             <td>{el.name_provinec}</td>

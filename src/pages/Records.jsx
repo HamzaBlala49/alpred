@@ -34,11 +34,18 @@ function Records() {
   const [city ,setCity] = useState([]);
   const [city_name ,setCity_name] = useState("");
 
+  const [office ,setOffice] = useState([]);
+  const [office_Id ,setOffice_Id] = useState("");
+
+  const [date,setDate] = useState("");
+
   let [isSearch,setIsSearch] = useState(false);
 
   let [isCheckAll, setIsCheckAll] = useState(false);
 
   let [isSend, setIsSend] = useState(false);
+
+  let [isCompleteSearch,setIsCompleteSearch] = useState(false);
 
   const authHeader = useAuthHeader()
   const config = {
@@ -65,7 +72,15 @@ function Records() {
         }).catch(e=>{
             console.error(e)
             alert("حث خطأ اثناء جلب البيانات تأكد من اتصالك بالشبكة")
-        })
+        });
+
+
+        axios.get(`${bisUrl}/office/office/`,config).then(res=>{
+          setOffice(res.data.reverse());
+          }).catch(e=>{
+              console.error(e)
+              alert("حث خطأ اثناء جلب البيانات تأكد من اتصالك بالشبكة")
+          })
 
 
         axios.get(`${bisUrl}/office/stores/`,config).then(res=>{
@@ -156,12 +171,12 @@ function Records() {
   let handelResetting = (el) =>{
     setIsTransformation(!isTransformation);
     setStore_Id_1("");
-    setStatus_1_Id("")
+    setStatus_1_Id("");
     setTrip_Id_1("");
+    setOffice_Id("");
+    setDate("");
     setIsSearch(false)
   }
-
-
 
 
   let handelChangeSelectStatus_1 = (e)=>{
@@ -267,19 +282,47 @@ function Records() {
 
   let handelSearch = ()=>{
     if(isauth){
+      setIsLoad(true)
       setTransformationList([]);
       setIsCheckAll(false)
-      axios.get(`${bisUrl}/office/records/?trip=${trip_Id_1}&store=${store_Id_1}&expulsion_status=${status_1_Id}`,config).then((res)=>{
-        let datalist =  res.data.reverse()
-        datalist.forEach(el =>{
-          el.isCheck = false;
-        })
-          setData(datalist);
-          setIsSearch(true)
-        }).catch((e)=>{
-          console.log(e)
-          alert("حدث خطأ أثناء عملية الأضافة")
-        })
+      setIsCompleteSearch(true);
+      if(office_Id != ""){
+        axios.get(`${bisUrl}/office/records/?trip=${trip_Id_1}&store=${store_Id_1}&expulsion_status=${status_1_Id}&create_office=${office_Id}&status=${2}&create_at=${date}`,config).then((res)=>{
+          let datalist =  res.data.reverse()
+          datalist.forEach(el =>{
+            el.isCheck = false;
+          })
+            setData(datalist);
+            setIsSearch(true);
+            setIsLoad(false);
+            setIsCompleteSearch(false);
+
+
+          }).catch((e)=>{
+            console.log(e)
+            alert("حدث خطأ أثناء عملية البحث")
+          })
+
+      }else{
+
+        axios.get(`${bisUrl}/office/records/?trip=${trip_Id_1}&store=${store_Id_1}&expulsion_status=${status_1_Id}&create_at=${date}`,config).then((res)=>{
+          let datalist =  res.data.reverse()
+          datalist.forEach(el =>{
+            el.isCheck = false;
+          })
+            setData(datalist);
+            setIsSearch(true);
+            setIsLoad(false);
+            setIsCompleteSearch(false);
+
+
+          }).catch((e)=>{
+            console.log(e)
+            alert("حدث خطأ أثناء عملية البحث")
+          })
+
+      }
+
   }
   }
 
@@ -356,6 +399,27 @@ function Records() {
             </select>
         </div>
 
+
+        <div className='col-12 col-lg-2 col-md-2 col-sm-12'>
+            <select onChange={(e)=> setOffice_Id(e.target.value) } value={office_Id} className="form-select form-select-sm"
+            style={{fontSize:'11px'}} 
+            id="floatingSelectGrid">
+                <option value="">الفلترة اليومية بالمكتب</option>
+                {office.map(el =>{
+                    return <option value={el.id}>{el.name}</option>
+                })}
+            </select>
+        </div>
+
+        <div className='col-12 col-lg-3 col-md-3 col-sm-12'>
+        <div className='d-flex'>
+            <label style={{fontSize:"14px"}}>تاريخ الأنشاء:</label>
+            <input type="date" onChange={(e)=> setDate(e.target.value)} value={date} className='form-control  form-control-sm outline-none' style={{fontSize:"14px",height:"30px"}}/>
+        </div>
+           
+      </div>
+
+
         <div className='col-12 col-lg-2 col-md-2 col-sm-12'>
             <select onChange={(e)=> handelCityName(e)} value={city_name} className="form-select form-select-sm"
             style={{fontSize:'14px'}} 
@@ -368,10 +432,11 @@ function Records() {
         </div>
 
 
+
         {
-          status_1_Id !="" || store_Id_1!="" || trip_Id_1!=""? <>
+          status_1_Id !="" || store_Id_1!="" || trip_Id_1!="" || office_Id!=""  || date!=""? <>
           <div className='col-12 col-lg-2 col-md-2 col-sm-12'>
-            <button className='btn btn-sm btn-dark w-100' onClick={(e)=> handelSearch()} style={{fontSize:'14px',fontWeight:"bold"}}><FontAwesomeIcon icon={faSearch} /> بحث</button>
+            <button className='btn btn-sm btn-dark w-100' disabled={isCompleteSearch} onClick={(e)=> handelSearch()} style={{fontSize:'14px',fontWeight:"bold"}}><FontAwesomeIcon icon={faSearch} /> بحث</button>
           </div>
           </>
           :
@@ -467,6 +532,7 @@ function Records() {
             <tr>
               <th scope='col'> {isSearch &&<><input class="form-check-input" checked={isCheckAll} onChange={(e)=> handelCheckAll(e)}  type="checkbox" aria-label="Text for screen reader"/> الكل</>}</th>
               <th scope="col">الرقم</th>
+              <th scope="col">أسم المكتب</th>
               <th scope="col">رقم الطرد</th>
               <th scope="col">حالة الطرد</th>
               <th scope="col">أسم المستلم</th>
@@ -489,6 +555,7 @@ function Records() {
             return el.expulsion.toString().startsWith(searchValue) && el.name_city.startsWith(city_name) ? <tr key={index}>
             <th scope="row">{isSearch && <input class="form-check-input" checked={el.isCheck}  onChange={(e)=> handelCheck(e,el)}  type="checkbox" aria-label="Text for screen reader"/> }</th>
             <th scope="row">{data.length - index}</th>
+            <td>{el.name_create_office}</td>
             <td>{el.expulsion}</td>
             <td>{el.name_expulsion_status}</td>
             <td>{el.name_recipient_name}</td>
@@ -500,6 +567,7 @@ function Records() {
             <td>{el.name_type_price || "لايوجد"}</td>
             <td>{el.name_drive || "لايوجد"}</td>
             <td>{el.create_at.slice(0,10)}</td>
+            {/* name_create_office */}
             {
                 check_permissions("office.change_motionrecording")?  <td> <Link  to={`${el.id}`} role='button'><FontAwesomeIcon className='text-success' icon={faPenToSquare} /></Link></td>: <td> <Link  style={{cursor:"not-allowed"}} role='button'><FontAwesomeIcon className='text-secondary' icon={faPenToSquare} /></Link></td>
             }
