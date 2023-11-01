@@ -225,9 +225,10 @@ function Print_3() {
                         <div className="text-center"><p style={{fontSize:"20px",fontWeight:"bold",textDecoration:"underline"}}>أستلام مركبة</p></div>
                         <div className="col-5">
                             <div className='mb-2'>
-                                <h3 style={{fontWeight:"bolder",fontSize:"20px"}}>البريد المختص في عالم النقل</h3>
-                                <p className='m-0 p-0' style={{fontWeight:"bold", fontSize:"14px"}}>AlMUKHTAS FOR TRANSPORT WORLD</p>
-                                <p className='m-0 p-0' style={{fontWeight:"bold", fontSize:"14px"}}>لخدمات الشحن و النقل السريع </p>
+                                <h3 style={{fontWeight:"bolder",fontSize:"20px",color:"#EF9523"}}>العتيقة في عالم النقل</h3>
+                                <p className='m-0 p-0' style={{fontWeight:"bold", fontSize:"14px"}}>Antique in the world of transportation</p>
+                                <h3 style={{fontWeight:"bolder",fontSize:"20px",color:"#EF9523"}}>والشحن السريع</h3>
+                                <p className='m-0 p-0' style={{fontWeight:"bold", fontSize:"14px"}}>and express shipping</p>
                             </div>
                             <span className='' style={{fontSize:"16px"}}><b>من:</b> {data[0]?.name_from_office} </span>
                             <span className='mx-3' style={{fontSize:"16px"}}><b>الى:</b> {data[0]?.name_to_office} </span>
